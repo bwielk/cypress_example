@@ -1,0 +1,10 @@
+{
+    "login_page":{
+        "email_input": "input[placeholder='Email']",
+        "password_input": "input[placeholder='Password'",
+        "login_button": "button[type='submit']"
+    },
+    "user_page": {
+        "settings_link": "a[href='#settings']"
+    }
+}
