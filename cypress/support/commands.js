@@ -5,7 +5,7 @@ const URL = "https://react-redux.realworld.io/#/login"
 
 //content
 const id = Math.floor(Math.random() * 10000).toString()
-const contentTitle = "Hello"+ id
+const contentTitle = "Hello" + id
 const contentDescription = "This is a post with id: " + id
 const content = id + " this is the content" + id + id
 const tags = "Random Content"
@@ -31,7 +31,7 @@ const ARTICLE_SUBMIT = 'Publish Article' //content, not css
 const ARTICLE_DELETE = ' Delete Article' //content not css
 const EDIT_ARTICLE = 'a[href*="#/editor/"]'
 
-Cypress.Commands.add("SignIn", ()=> {
+Cypress.Commands.add("SignIn", () => {
     cy.visit(URL)
     cy.get(EMAIL_INPUT).type(EMAIL)
     cy.get(PASSWORD_INPUT).type(PASSWORD)
@@ -49,5 +49,22 @@ Cypress.Commands.add("NewPost", () => {
         cy.get('textarea').last().type(content)
         cy.get('input').last().type(tags)
         cy.contains("Publish Article").click()
+    })
+})
+
+Cypress.Commands.add("GoToProfilePage", () => {
+    cy.contains(LOGIN).click()
+    cy.contains(MY_ARTICLES).should('be.visible').click()
+})
+
+Cypress.Commands.add("CheckLikeCount", () => {
+    cy.GoToProfilePage()
+    cy.contains("Favorited Articles").click().debug()
+    cy.contains("No articles are here... yet.").should('not.exist')
+    cy.get('.preview-link').first().within(($el) => {
+        cy.get('.btn-primary').first().then(($fav) => {
+            const favCount = $fav.text()
+            expect(parseInt(favCount)).to.eq(1)
+        })
     })
 })
