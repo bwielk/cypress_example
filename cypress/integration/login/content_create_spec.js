@@ -59,12 +59,14 @@ describe("Create content - post", function(){
             cy.get('input').last().type(tags)
             cy.contains("Publish Article").click()
         })
+        cy.log("step1")
         cy.url().should('include', '/#/article/')
         cy.get(PROFILE_PAGE_LINK).click()
         cy.contains(MY_ARTICLES).should('be.visible').click()
         cy.get('.article-preview').first().within(($el) => {
             cy.get('.ion-heart').first().click()
         })
+        cy.log("step2")
         cy.contains("Favorited Articles").click().debug()
         cy.contains("No articles are here... yet.").should('not.exist')
         cy.get('.preview-link').first().within(($el) => {
@@ -72,6 +74,7 @@ describe("Create content - post", function(){
             cy.get('.ion-heart').click()
             cy.reload()
         })
+        cy.log("step3")
     })
 
 })
